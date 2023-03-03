@@ -22,4 +22,4 @@ from analyticdb.zpn_schedule as gr
          left join analyticdb.zpn_payconditions as pay on gr.clinic = pay.clinic
 
 where gr.DateSm >= '2023-02-01 00:00'
-  and gr.DateSm < '2023-03-01 00:00' -- and
+  and gr.DateSm < '2023-03-01 00:00' -- and3

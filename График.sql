@@ -1,3 +1,4 @@
+use analyticdb;
 select gr.clinic,
        gr.department,
        gr.post,
