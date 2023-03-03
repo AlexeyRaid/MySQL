@@ -28,7 +28,7 @@ select pc.*, -- , pc.date_from as date_from, pc.clinic as clinic, pc.role as rol
                 limit 1)
            )                                                                                                        as date_to,
 
--- Формируем Уник для графика
+-- Формируем Уник для графика gggg
        concat(pc.clinic, "_", pc.department, "_", pc.post, "_", pc.role, "_", pc.level, "_", pc.shift, "_",
               pc.fio)                                                                                               as Uniq
 
