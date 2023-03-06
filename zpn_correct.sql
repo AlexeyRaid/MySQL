@@ -17,13 +17,13 @@ select cor.clinic,
            END                                                       as DTEnd,
 -- Длительность смены
        timediff(
-               cast(concat(cor.shift_date, " ", cor.time_start) as datetime),
                case
                    when cor.time_start < cor.time_end then
                        cast(concat(cor.shift_date, " ", cor.time_end) as datetime)
                    else
                            cast(concat(cor.shift_date, " ", cor.time_end) as datetime) + INTERVAL 1 DAY
-                   END)                                              as DlSmen
+                   END,
+               cast(concat(cor.shift_date, " ", cor.time_start) as datetime)) as DlSmen
 
 from analyticdb.gs_correction_tmp as cor
 
