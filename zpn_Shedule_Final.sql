@@ -42,3 +42,4 @@ select gr.fio,
 from analyticdb.zpn_sched_lev_uniqp as gr
 
          left join analyticdb.zpn_payconditions as pay on gr.UniqPay = pay.Uniq
+limit 100
