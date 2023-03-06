@@ -9,3 +9,4 @@ from analyticdb.zpn_schedule as gr
                       gr.post = lev.post and
                       gr.DateSm >= lev.date_from and gr.DateSm <= lev.date_to
 
+where lev.level is null
