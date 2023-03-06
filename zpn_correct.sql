@@ -8,10 +8,24 @@ select cor.clinic,
        cor.shift_date,
        -- Дата старта смены
        cast(concat(cor.shift_date, " ", cor.time_start) as datetime) as DTStart,
+-- Дата конца смены
+       case
+           when cor.time_start < cor.time_end then
+               cast(concat(cor.shift_date, " ", cor.time_end) as datetime)
+           else
+                   cast(concat(cor.shift_date, " ", cor.time_end) as datetime) + INTERVAL 1 DAY
+           END                                                       as DTEnd,
+-- Длительность смены
+       timediff(
+               cast(concat(cor.shift_date, " ", cor.time_start) as datetime),
+               case
+                   when cor.time_start < cor.time_end then
+                       cast(concat(cor.shift_date, " ", cor.time_end) as datetime)
+                   else
+                           cast(concat(cor.shift_date, " ", cor.time_end) as datetime) + INTERVAL 1 DAY
+                   END)                                              as DlSmen
 
-       'DTEnd',
-       'DlSmen'
 from analyticdb.gs_correction_tmp as cor
 
 -- Подставляем полное имя сотрудника
-         left join gs_employee as emp on cor.employee = emp.fio_schedule
+         left join analyticdb.gs_employee as emp on cor.employee = emp.fio_schedule
