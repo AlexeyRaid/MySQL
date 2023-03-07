@@ -91,7 +91,7 @@ from analyticdb.gs_schedule_tmp as gr
          left join gs_employee as emp on gr.employee = emp.fio_schedule
 
 where gr.employee is not null
-  and gr.month = 2
+  and gr.month = 2 -- and gr.employee= 'Григораш'
 
 UNION
 select cor.clinic,
@@ -107,3 +107,4 @@ select cor.clinic,
        cor.DlSmen,
        '1'
 from zpn_correction as cor
+

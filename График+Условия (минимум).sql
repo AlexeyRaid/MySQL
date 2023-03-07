@@ -34,5 +34,5 @@ from analyticdb.zpn_sched_lev as gr
                                                           gr.role = pay.role and
                                                           gr.post = pay.post and
                                                           gr.level = pay.level
-where gr.DateSm >= '2023-01-01'
+
 
