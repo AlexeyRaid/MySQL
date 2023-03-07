@@ -1,6 +1,4 @@
-select gr.*, lev.level, gr.fio
-
-
+select gr.*, lev.level
 from analyticdb.zpn_schedule as gr
 
          left join analyticdb.zpn_levelsemployees as lev
@@ -8,5 +6,3 @@ from analyticdb.zpn_schedule as gr
                       gr.department = lev.department and
                       gr.post = lev.post and
                       gr.DateSm >= lev.date_from and gr.DateSm <= lev.date_to
-
-where lev.level is null
