@@ -2,9 +2,9 @@ select s.period,
        s.organization_key,
        s.employee,
        s.executor,
-       s.nomenclature_key,
-       anal.description,
-       nom.code,
+
+       anal.description as type,
+
        s.price_without_discounts,
        s.price,
        s.amount_of_costs
@@ -19,5 +19,5 @@ where s.period between '2023-02-01' and '2023-02-28'
   and (s.price <> 0
     or s.amount_of_costs <> 0
     or s.price_without_discounts <> 0)
-  and anal.description is null
+  
   and nom.is_folder = 0
