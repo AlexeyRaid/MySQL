@@ -1,8 +1,11 @@
-use analyticdb
-select nom.description, nom.code, nom.nomenclature_type, nom.view_key as articul
-from analyticdb.et_nomenclature as nom
+select date(s.period) as Date, nom.description, nom.code, sum(s.price * s.quantity_paid) as price
+from analyticdb.et_sales as s
 
-         left join analytic_salaries as anal on nom.salary_analytics_key = anal.ref_key
+-- Подтягиваем тип продажи
+         left join analyticdb.et_nomenclature as nom on s.nomenclature_key = nom.ref_key
+         left join analyticdb.et_salary_analytics as anal on nom.salary_analytics_key = anal.ref_key
 
-where anal.description is null
-  and nom.is_folder = 0
+where s.period >= '2022-04-01'
+  and anal.description is null
+
+group by DATE_FORMAT(s.period, '%M %Y')
