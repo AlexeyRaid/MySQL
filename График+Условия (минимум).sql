@@ -1,4 +1,17 @@
-select gr.*,
+select gr.clinic,
+       cl.ref_key                                             as clinic_ref,
+       gr.department,
+       gr.post,
+       gr.role,
+       gr.shift,
+       gr.fio,
+       emp.ref_key                                            as fio_ref,
+       gr.DateSm,
+       gr.DTStart,
+       gr.DTEnd,
+       gr.DlSmen,
+       gr.Korr,
+       gr.level,
        pay.team_share_of_serv_assign                          as БрНазУсл,
        pay.team_share_of_serv_used                            as БрИспУсл,
        pay.team_share_of_prescribed_med                       as БрНазМед,
@@ -29,10 +42,16 @@ select gr.*,
 
 from analyticdb.zpn_sched_lev as gr
 
+         -- Подтягиваем условия
          left join analyticdb.zpn_payconditions as pay on gr.DateSm >= pay.date_from and gr.DateSm <= pay.date_to and
                                                           gr.clinic = pay.clinic and
                                                           gr.role = pay.role and
                                                           gr.post = pay.post and
                                                           gr.level = pay.level
+-- Подтягиваем Рефы сотрудника со справочников
+         left join analyticdb.gs_employee as emp on gr.fio = emp.fio
+
+-- Подтягиваем рефы клиники
+         left join analyticdb.gs_clinics as cl on gr.clinic = cl.clinic
 
 

@@ -7,6 +7,10 @@ select s.period,
        s.price,
        s.amount_of_costs
 from analyticdb.et_sales as s
+
+-- Подтягиваем Клинику, как в графике
+
+
 where s.period between '2023-02-01' and '2023-02-28'
   and (s.price <> 0
     or s.amount_of_costs <> 0
