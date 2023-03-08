@@ -7,5 +7,6 @@ from analyticdb.et_sales as s
 
 where s.period >= '2022-04-01'
   and anal.description is null
+  and nom.is_folder = 0
 
 group by DATE_FORMAT(s.period, '%M %Y')

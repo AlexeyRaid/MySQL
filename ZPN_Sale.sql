@@ -17,3 +17,4 @@ where s.period between '2023-02-01' and '2023-02-28'
     or s.amount_of_costs <> 0
     or s.price_without_discounts <> 0)
   and nom.is_folder = 0
+  and anal.ref_key is not null
