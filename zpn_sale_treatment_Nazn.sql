@@ -1,4 +1,5 @@
 select s.period,
+       gr.DateSm,
        s.organization_key,
        s.employee,
        anal.description          as type,
@@ -26,4 +27,4 @@ where s.period between '2023-02-01' and '2023-02-28'
   and nom.is_folder = 0
   and anal.ref_key is not null
   and (gr.БрНазУсл is not null or gr.БрНазМед is not null or gr.ПерсНазУсл is not null or gr.ПерсНазМед)
-  and anal.description <> 'Аптека+Зоомагазин'
+  and (anal.description = 'Клиника' or anal.description = 'Медикаменты')
