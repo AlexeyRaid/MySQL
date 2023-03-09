@@ -7,6 +7,7 @@ select s.period,
        s.price_without_discounts                    as price_with_disc,
        s.price,
        s.amount_of_costs,
+       pay.role,
 
        pay.pers_of_serv_assign                      as ПерсНазУсл,
        pay.pers_of_serv_used                        as ПерсИспУсл,
@@ -30,7 +31,6 @@ from analyticdb.et_sales as s
 
 -- Тянем условия для самозванцев
          left join analyticdb.zpn_payconditions as pay on s.period between pay.date_from and pay.date_to and
-                                                          emp.fio = pay.fio and
                                                           pay.role = 'Самозванец'
 
 
