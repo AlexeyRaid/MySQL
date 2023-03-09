@@ -1,14 +1,14 @@
 select s.period,
        s.organization_key,
-       s.executor,
+       s.employee,
        anal.description          as type,
        s.price_without_discounts as price_with_disc,
        s.price,
        s.amount_of_costs,
-       gr.БрИспУсл,
-       gr.БрИспМед,
-       gr.ПерсИспУсл,
-       gr.ПерсИспМед
+       gr.БрНазнАптекаДоЛимита,
+       gr.БрНазнАптекаПремия,
+       gr.ПерсНазнАптекаДоЛимита,
+       gr.ПерсНазнАптекаПремия
 
 from analyticdb.et_sales as s
 
@@ -27,5 +27,6 @@ where s.period between '2023-02-01' and '2023-02-28'
     or s.price_without_discounts <> 0)
   and nom.is_folder = 0
   and anal.ref_key is not null
-  and (gr.БрИспУсл is not null or gr.БрИспМед is not null or gr.ПерсИспУсл is not null or gr.ПерсИспУсл is not null)
-  and anal.description <> 'Аптека+Зоомагазин'
+  and (gr.БрНазнАптекаПремия is not null or gr.БрНазнАптекаДоЛимита is not null or
+       gr.ПерсНазнАптекаДоЛимита is not null or gr.ПерсНазнАптекаПремия is not null)
+  and anal.description = 'Аптека+Зоомагазин'
