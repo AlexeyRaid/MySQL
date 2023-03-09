@@ -18,7 +18,7 @@ from analyticdb.et_sales as s
 
 -- Тянем график с условиями
          left join analyticdb.zpn_sched_conditions_final as gr on s.period between gr.DTStart and gr.DTEnd and
-                                                                  s.executor = gr.fio_ref
+                                                                  s.employee = gr.fio_ref
 
 
 where s.period between '2023-02-01' and '2023-02-28'
