@@ -26,5 +26,5 @@ where s.period between '2023-02-01' and '2023-02-28'
     or s.price_without_discounts <> 0)
   and nom.is_folder = 0
   and anal.ref_key is not null
-  and (gr.БрНазУсл is not null or gr.БрНазМед is not null or gr.ПерсНазУсл is not null or gr.ПерсНазМед)
+  and (gr.БрНазУсл is not null or gr.БрНазМед is not null or gr.ПерсНазУсл is not null or gr.ПерсНазМед is not null)
   and (anal.description = 'Клиника' or anal.description = 'Медикаменты')
