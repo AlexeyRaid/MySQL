@@ -1,4 +1,7 @@
-select s.period,
+select s.recorder,
+       s.line_number,
+
+       s.period,
        date(s.period)                               as DTSale,
        s.organization_key,
        s.employee,
