@@ -1,6 +1,5 @@
 select s.recorder,
        s.line_number,
-
        s.period,
        date(s.period)                               as DTSale,
        s.organization_key,
@@ -10,15 +9,12 @@ select s.recorder,
        s.price_without_discounts                    as price_with_disc,
        s.price,
        s.amount_of_costs,
-       pay.role,
-
        pay.pers_of_serv_assign                      as ПерсНазУсл,
        pay.pers_of_serv_used                        as ПерсИспУсл,
        pay.pers_of_prescribed_med                   as ПерсНазМед,
        pay.pers_of_used_med                         as ПерсИспМед,
        pay.pers_of_assign_pharmacy_prem_under_limit as ПерсНазнАптекаДоЛимита,
        pay.pers_of_used_pharmacy_prem_under_limit   as ПерсИспАптекаДоЛимита
-
 
 from analyticdb.et_sales as s
 
@@ -33,15 +29,24 @@ from analyticdb.et_sales as s
          left join analyticdb.gs_employee as emp on s.employee = emp.ref_key
 
 -- Тянем условия для самозванцев
-         left join gs_clinics as cl on s.organization_key = cl.ref_key
+         left join analyticdb.gs_clinics as cl on s.organization_key = cl.ref_key
+         left join analyticdb.zpn_levelsemployees as lev on emp.fio = lev.fio
          left join analyticdb.zpn_payconditions as pay on s.period between pay.date_from and pay.date_to and
-                                                          pay.role = 'Самозванец' and s.organization_key = cl.ref_key
-
+                                                          pay.role = 'Самозванец' and
+                                                          cl.clinic = pay.clinic and
+                                                          lev.level = pay.level and
+                                                          pay.post = lev.post
 
 where s.period between '2023-02-01' and '2023-02-28'
   and (s.price <> 0
     or s.amount_of_costs <> 0
     or s.price_without_discounts <> 0)
+  and (pay.pers_of_serv_assign is not null
+    or pay.pers_of_serv_used is not null
+    or pay.pers_of_prescribed_med is not null
+    or pay.pers_of_used_med is not null
+    or pay.pers_of_assign_pharmacy_prem_under_limit is not null
+    or pay.pers_of_used_pharmacy_prem_under_limit is not null)
   and nom.is_folder = 0
   and anal.ref_key is not null
   and gr.DateSm is null
