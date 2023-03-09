@@ -33,8 +33,9 @@ from analyticdb.et_sales as s
          left join analyticdb.gs_employee as emp on s.employee = emp.ref_key
 
 -- Тянем условия для самозванцев
+         left join gs_clinics as cl on s.organization_key = cl.ref_key
          left join analyticdb.zpn_payconditions as pay on s.period between pay.date_from and pay.date_to and
-                                                          pay.role = 'Самозванец'
+                                                          pay.role = 'Самозванец' and s.organization_key = cl.ref_key
 
 
 where s.period between '2023-02-01' and '2023-02-28'
