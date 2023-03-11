@@ -22,7 +22,7 @@ from analyticdb.et_sales as s
 
 
 where s.period >= '2023-02-01 00:00'
---  and pay.share_donor_used_services is not null
+  -- and pay.share_donor_used_services is not null
   and (s.price <> 0
     or s.amount_of_costs <> 0
     or s.price_without_discounts <> 0)

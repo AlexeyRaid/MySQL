@@ -11,4 +11,3 @@ where s.period >= '2023-02-01 00:00'
   and empIsp.ref_key = s.executor
   and empIsp.ref_key is not null
   and graf.employee is null
-
