@@ -1,4 +1,4 @@
-select anal.description, s.*, empIsp.fio
+select anal.description, s.period, s.executor, s.price
 from analyticdb.et_sales as s
 
          left join analyticdb.gs_employee as empIsp on s.executor = empIsp.ref_key
