@@ -37,22 +37,11 @@ from analyticdb.et_sales as s
 -- Тянем условия для самозванцев
          left join analyticdb.gs_clinics as cl on s.organization_key = cl.ref_key
          left join analyticdb.zpn_levelsemployees as lev on emp.fio = lev.fio
-         left join analyticdb.zpn_payconditions as pay on s.period between pay.date_from and pay.date_to and
-                                                          pay.role = 'Самозванец' and
+         left join analyticdb.zpn_payconditions as pay on s.period >= pay.date_from and s.period <= pay.date_to and
                                                           cl.clinic = pay.clinic and
-                                                          pay.post = lev.post and
-                                                          pay.level =
-                                                          (select lev.level
-                                                           from analyticdb.zpn_levelsemployees as lev
-                                                                    left join analyticdb.gs_employee as em on lev.fio = em.fio
-                                                                    left join analyticdb.et_sales as s
-                                                                              on s.period between lev.date_from and lev.date_to
-                                                                                  and em.ref_key = s.employee
-                                                           where s.period >= '2023-02-01 00:00'
-#                                                              and em.fio_schedule = 'Гайворонський'
-                                                           group by lev.fio, lev.level
-                                                           order by lev.level
-                                                           limit 1)
+
+
+
 
 where s.period between '2023-02-01' and '2023-02-28'
   and (s.price <> 0
