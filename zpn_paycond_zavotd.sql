@@ -27,3 +27,4 @@ from analyticdb.gs_pay_conditions_chief_tmp as pay
 
          left join analyticdb.gs_employee as em_rec on pay.recipient = em_rec.fio
          left join analyticdb.gs_employee as em_don on pay.donor = em_don.fio
+where pay.date_from is not null
