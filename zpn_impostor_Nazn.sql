@@ -1,7 +1,4 @@
 SELECT s.period,
-       s.recorder,
-       s.line_number,
-       s.employee,
        s.price,
        s.price_without_discounts,
        s.amount_of_costs,
