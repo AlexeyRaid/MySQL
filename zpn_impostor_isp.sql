@@ -1,5 +1,5 @@
 SELECT s.period,
-       s.employee,
+       s.executor,
        s.price,
        s.price_without_discounts,
        s.amount_of_costs,
@@ -8,7 +8,7 @@ SELECT s.period,
        anal.description
 
 from analyticdb.et_sales as s
-         RIGHT JOIN analyticdb.gs_employee AS em ON em.ref_key = s.employee
+         RIGHT JOIN analyticdb.gs_employee AS em ON em.ref_key = s.executor
          LEFT JOIN analyticdb.zpn_schedule AS sh ON em.fio = sh.fio AND s.period >= sh.DTStart AND s.period < sh.DTEnd
          left join analyticdb.gs_posts as post on
         (SELECT l.priority
