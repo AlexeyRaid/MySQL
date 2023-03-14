@@ -32,7 +32,7 @@ from analyticdb.et_sales as s
 
 -- Тянем условия
          left join analyticdb.zpn_payconditions as pay on pay.role = 'Самозванец' and
-                                                          s.period >= pay.date_from and pay.date_to and
+                                                          s.period >= pay.date_from and s.period <= pay.date_to and
                                                           pay.post = post.post and
                                                           pay.level = post.level and
                                                           cl.clinic = pay.clinic
