@@ -1,19 +1,19 @@
 SELECT s.period,
        date(s.period)                                as DTSale,
        cast(date_format(s.period, '%H:%mm') as time) as TMSale,
-       s.executor,
+       s.employee,
        s.price,
        s.price_without_discounts,
        s.amount_of_costs,
        post.post,
        post.level,
        anal.description,
-       pay.pers_of_serv_used                         as ПерсИспУсл,
-       pay.pers_of_used_med                          as ПерсИспМед,
-       pay.pers_of_used_pharmacy_prem_under_limit    as ПерсИспАптекаДоЛимита
+       pay.pers_of_serv_assign                       as ПерсНазнУсл,
+       pay.pers_of_prescribed_med                    as ПерсНазнМед,
+       pay.pers_of_assign_pharmacy_prem_under_limit  as ПерсНазнАптекаДоЛимита
 
 from analyticdb.et_sales as s
-         RIGHT JOIN analyticdb.gs_employee AS em ON em.ref_key = s.executor
+         RIGHT JOIN analyticdb.gs_employee AS em ON em.ref_key = s.employee
          LEFT JOIN analyticdb.zpn_schedule AS sh ON em.fio = sh.fio AND s.period >= sh.DTStart AND s.period < sh.DTEnd
          left join analyticdb.gs_posts as post on
         (SELECT l.priority
@@ -45,6 +45,6 @@ where s.period >= '2023-02-01 00:00'
     or s.price_without_discounts <> 0)
 
   AND sh.DateSm IS null
-  and anal.description in ('Клиника', 'Медикаменты', 'Аптека+Зоомагазин')
-  and (pay.pers_of_serv_used is not null or pay.pers_of_used_med is not null or
-       pay.pers_of_used_pharmacy_prem_under_limit is not null)
+  and anal.description in ('Клиника', 'Медикаменты')
+  and (pay.pers_of_serv_assign is not null or pay.pers_of_prescribed_med is not null or
+       pay.pers_of_assign_pharmacy_prem_under_limit is not null)
