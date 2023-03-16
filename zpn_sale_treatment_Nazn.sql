@@ -11,7 +11,8 @@ select s.period,
        gr.БрНазУсл,
        gr.БрНазМед,
        gr.ПерсНазУсл,
-       gr.ПерсНазМед
+       gr.ПерсНазМед,
+       gr.ПерсГарСм
 
 from analyticdb.et_sales as s
 
