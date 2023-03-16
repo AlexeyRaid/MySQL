@@ -1,6 +1,7 @@
 select s.period,
        gr.DateSm,
        s.organization_key,
+       gr.role,
        s.employee,
        anal.description          as type,
        s.price_without_discounts as price_with_disc,
