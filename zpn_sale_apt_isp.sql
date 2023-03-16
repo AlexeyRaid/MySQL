@@ -1,4 +1,6 @@
-select s.period,
+select gr.DateSm,
+       gr.DTStart,
+       gr.DTEnd,
        s.organization_key,
        s.executor,
        anal.description          as type,
