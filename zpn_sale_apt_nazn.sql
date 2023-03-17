@@ -4,6 +4,7 @@ select gr.DateSm,
        hour(gr.DlSmen)             as DlSmenH,
        s.organization_key,
        s.employee,
+       gr.post,
        s.price_without_discounts   as price_with_disc,
        s.price,
        s.amount_of_costs,
@@ -20,7 +21,7 @@ from analyticdb.et_sales as s
          left join analyticdb.et_salary_analytics as anal on nom.salary_analytics_key = anal.ref_key
 
 -- Тянем график с условиями
-         left join analyticdb.zpn_sched_conditions_final as gr on s.period between gr.DTStart and gr.DTEnd and
+         left join analyticdb.zpn_sched_conditions_final as gr on s.period >= gr.DTStart and s.period < gr.DTEnd and
                                                                   s.employee = gr.fio_ref
 where s.period between '2023-02-01' and '2023-02-28'
   and (s.price <> 0

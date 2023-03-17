@@ -1,5 +1,8 @@
 select s.period,
        gr.DateSm,
+       gr.DTStart,
+       gr.DTEnd,
+       hour(gr.DlSmen)           as DlSmen,
        s.organization_key,
        gr.role,
        gr.post,
@@ -23,7 +26,8 @@ from analyticdb.et_sales as s
 -- Тянем график с условиями
          left join analyticdb.zpn_sched_conditions_final as gr on s.period between gr.DTStart and gr.DTEnd and
                                                                   s.employee = gr.fio_ref
-where s.period between '2023-02-01' and '2023-02-28'
+where s.period >= '2023-02-01 00:00'
+  and s.period < '2023-03-01 00:00'
   and (s.price <> 0
     or s.amount_of_costs <> 0
     or s.price_without_discounts <> 0)
