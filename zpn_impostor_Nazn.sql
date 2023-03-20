@@ -1,4 +1,6 @@
 SELECT s.period,
+       s.recorder,
+       s.line_number,
        date(s.period)                                as DTSale,
        cast(date_format(s.period, '%H:%mm') as time) as TMSale,
        s.employee,
