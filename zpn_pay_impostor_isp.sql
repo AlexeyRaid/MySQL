@@ -1,6 +1,7 @@
 SELECT s.period,
        date(s.period)                                as DTSale,
        cast(date_format(s.period, '%H:%mm') as time) as TMSale,
+       s.organization_key,
        s.executor,
        s.price,
        s.price_without_discounts,

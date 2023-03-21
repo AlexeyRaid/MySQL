@@ -1,29 +1,34 @@
 select s.period,
-       s.employee,
+       DATE(s.period) AS DTSale,
        s.organization_key,
        s.nomenclature_key,
+       dis.name,
        s.quantity_paid,
        s.price,
        dis.share_of_check,
-       ifnull(gr.post, post.post) as post
+       s.employee,
 
-from analyticdb.zpn_paydisposable as dis
+       IFNULL(sh.post,
+              (SELECT lev.post
+               FROM zpn_levelsemployees AS lev
+               WHERE empl.fio = lev.fio
+                 AND s.period >= lev.date_from
+                 AND s.period <= lev.date_to
+               ORDER BY lev.priority desc
+               LIMIT 1)
+           )          AS post
 
-         left join analyticdb.et_sales as s on dis.ref_key = s.nomenclature_key and
-                                               s.period >= dis.date_from and s.period <= dis.date_to
 
-         left join analyticdb.zpn_schedule as gr on s.period >= gr.DTStart and s.period < gr.DTEnd
+from analyticdb.et_sales as s
 
-         RIGHT JOIN analyticdb.gs_employee AS em ON em.ref_key = s.employee
+         left join analyticdb.zpn_paydisposable as dis on s.nomenclature_key = dis.ref_key
 
-         left join analyticdb.gs_posts as post on
-        (SELECT l.priority
-         FROM analyticdb.zpn_levelsemployees AS l
-         WHERE em.fio = l.fio
-           AND s.period >= l.date_from
-           AND s.period <= l.date_to
-         ORDER BY l.priority desc
-         LIMIT 1) = post.priority
+         left join analyticdb.gs_employee as empl on s.employee = empl.ref_key
+
+         left join analyticdb.zpn_schedule AS sh
+                   ON sh.employee = empl.fio_schedule AND s.period > sh.DTStart AND s.period <= sh.DTEnd
+
 
 where s.period >= '2023-02-01 00:00'
   and s.price <> 0
+  and dis.name is not NULL

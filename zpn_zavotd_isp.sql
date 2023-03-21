@@ -1,6 +1,6 @@
 select s.period,
-       s.recorder,
-       s.line_number,
+       date(s.period) as DTSale,
+       s.organization_key,
        s.executor,
        s.price,
        s.price_without_discounts,
