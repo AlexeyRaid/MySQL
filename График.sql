@@ -88,18 +88,21 @@ where gr.employee is not null
   and gr.`year_month` >= '2023-02-01'
   and gr.`year_month` < '2023-03-01'
 
-UNION
-select cor.clinic,
-       cor.department,
-       cor.post,
-       cor.role,
-       cor.shift,
-       cor.employee,
-       cor.fio,
-       cor.shift_date,
-       cor.DTStart,
-       cor.DTEnd,
-       cor.DlSmen,
-       '1'
-from zpn_correction as cor
+  and gr.day = 9
+  and gr.employee = 'Кошик'
+
+# UNION
+# select cor.clinic,
+#        cor.department,
+#        cor.post,
+#        cor.role,
+#        cor.shift,
+#        cor.employee,
+#        cor.fio,
+#        cor.shift_date,
+#        cor.DTStart,
+#        cor.DTEnd,
+#        cor.DlSmen,
+#        '1'
+# from zpn_correction as cor
 
