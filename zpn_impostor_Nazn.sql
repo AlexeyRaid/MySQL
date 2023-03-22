@@ -1,6 +1,4 @@
 SELECT s.period,
-       s.recorder,
-       s.line_number,
        date(s.period)                                as DTSale,
        cast(date_format(s.period, '%H:%mm') as time) as TMSale,
        s.employee,
@@ -34,3 +32,4 @@ where s.period >= '2023-02-01 00:00'
 
   AND sh.DateSm IS null
   and anal.description <> 'Служебные'
+  and post.post is not null

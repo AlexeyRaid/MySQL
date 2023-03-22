@@ -32,3 +32,4 @@ where s.period >= '2023-02-01 00:00'
 
   AND sh.DateSm IS null
   and anal.description <> 'Служебные'
+  and post.post is not null
