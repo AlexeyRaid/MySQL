@@ -63,9 +63,9 @@ select gr.clinic,
                case
                    when kor.time_start is null
                        then -- если корректировки нет - вносим данные с графика, если корректировка есть - тогда подменяем данные корректировкой
-                       cast(concat(date_add(gr.year_month, INTERVAL (gr.day - 1) day), " ", gr.time_start) as datetime)
+                       cast(concat(date_add(gr.year_month, INTERVAL (gr.day - 1) day), " ", gr.time_end) as datetime)
                    else
-                       cast(concat(kor.shift_date, " ", kor.time_start) as datetime)
+                       cast(concat(kor.shift_date, " ", kor.time_end) as datetime)
                    END)
                                                           as DlSmen,
 
@@ -91,18 +91,18 @@ where gr.employee is not null
   and gr.day = 9
   and gr.employee = 'Кошик'
 
-# UNION
-# select cor.clinic,
-#        cor.department,
-#        cor.post,
-#        cor.role,
-#        cor.shift,
-#        cor.employee,
-#        cor.fio,
-#        cor.shift_date,
-#        cor.DTStart,
-#        cor.DTEnd,
-#        cor.DlSmen,
-#        '1'
-# from zpn_correction as cor
+UNION
+select cor.clinic,
+       cor.department,
+       cor.post,
+       cor.role,
+       cor.shift,
+       cor.employee,
+       cor.fio,
+       cor.shift_date,
+       cor.DTStart,
+       cor.DTEnd,
+       cor.DlSmen,
+       '1'
+from zpn_correction as cor
 
