@@ -85,7 +85,8 @@ from analyticdb.gs_schedule_tmp as gr
          left join gs_employee as emp on gr.employee = emp.fio_schedule
 
 where gr.employee is not null
-  and gr.month = 2 -- and gr.employee= 'Григораш'
+  and gr.`year_month` >= '2023-02-01'
+  and gr.`year_month` < '2023-03-01'
 
 UNION
 select cor.clinic,
