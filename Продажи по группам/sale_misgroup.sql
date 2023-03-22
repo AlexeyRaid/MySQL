@@ -1,6 +1,7 @@
 select date(s.period)              as Date,
        s.organization_key          as Clinic,
        n.description               as Nomenclature,
+       n.nomenclature_type         as Type,
        n.code                      as Code,
        n.deletion_mark             as Del,
        s.price                     as Summ,
