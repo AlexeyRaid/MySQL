@@ -1,3 +1,4 @@
+use analyticdb;
 select gr.clinic,
        gr.department,
        gr.post,
@@ -79,6 +80,7 @@ from analyticdb.gs_schedule_tmp as gr
          left join gs_employee as emp on gr.employee = emp.fio_schedule
 
 where gr.employee is not null
+  and gr.year_month >= '2023-02-01'
 
 UNION
 select cor.clinic,
