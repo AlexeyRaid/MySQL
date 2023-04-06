@@ -1,15 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <data>
   <object-set>
-      <schema path="analyticdb">
-          <view name="virtual_view_name2"
-                query="CREATE VIEW OrderDetails AS &#xa;SELECT s.period, s.price, s.executor&#xa;FROM analyticdb.et_sales as s;&#xa;CREATE INDEX idx_OrderID ON analyticdb.et_sales (period);&#xa;"/>
-      </schema>
-      <view path="analyticdb.orderdetails">
-          <table name="virtual_foreign_key_name" from="" to=""/>
-      </view>
-      <dv.virtualview path="virtual_view_name">
-          <table name="virtual_foreign_key_name" from="" to=""/>
-      </dv.virtualview>
+    <schema path="analyticdb"/>
+    <dv.virtualview path="virtual_view_name">
+      <table name="virtual_foreign_key_name" from="" to=""/>
+    </dv.virtualview>
+    <view path="analyticdb.orderdetails">
+      <table name="virtual_foreign_key_name" from="" to=""/>
+    </view>
   </object-set>
 </data>

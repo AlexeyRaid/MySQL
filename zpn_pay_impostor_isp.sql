@@ -1,3 +1,7 @@
+DROP TEMPORARY TABLE IF EXISTS ttt_zpn_schedule;
+DROP TEMPORARY TABLE IF EXISTS ttt_zpn_payconditions;
+DROP TEMPORARY TABLE IF EXISTS ttt_zpn_levelsemployees;
+
 CREATE TEMPORARY TABLE ttt_zpn_schedule (SELECT *
                                          FROM analyticdb.zpn_schedule);
 CREATE INDEX ind_fio ON ttt_zpn_schedule (fio);
@@ -88,9 +92,7 @@ where s.period >= '2022-01-01 00:00'
   --  AND sh.DTStart IS null
   and anal.description in ('Клиника', 'Медикаменты', 'Аптека+Зоомагазин')
   and (pay.pers_of_serv_used is not null or pay.pers_of_used_med is not null or
-       pay.pers_of_used_pharmacy_prem_under_limit is not NULL)
-  and s.recorder = '673b4c00-be59-11ed-b581-e607dc9b591c'
-  and s.line_number = 1;
+       pay.pers_of_used_pharmacy_prem_under_limit is not NULL);
 
 DROP TEMPORARY TABLE IF EXISTS ttt_zpn_schedule;
 DROP TEMPORARY TABLE IF EXISTS ttt_zpn_payconditions;
