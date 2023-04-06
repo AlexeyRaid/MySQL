@@ -58,9 +58,9 @@ SELECT s.period,
        post.post,
        post.level,
        anal.description,
-       pay.pers_of_serv_assign                       as ПерсИспУсл,
-       pay.pers_of_prescribed_med                    as ПерсИспМед,
-       pay.pers_of_assign_pharmacy_prem_under_limit  as ПерсИспАптекаДоЛимита
+       pay.pers_of_serv_assign                       as ПерсНазнУсл,
+       pay.pers_of_prescribed_med                    as ПерсНазнМед,
+       pay.pers_of_assign_pharmacy_prem_under_limit  as ПерсНазнАптекаДоЛимита
 
 from analyticdb.et_sales AS s
          RIGHT JOIN analyticdb.gs_employee AS em ON em.ref_key = s.executor
