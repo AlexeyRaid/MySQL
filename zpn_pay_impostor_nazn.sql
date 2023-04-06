@@ -89,7 +89,7 @@ where s.period >= '2022-01-01 00:00'
   and (s.price <> 0
     or s.amount_of_costs <> 0
     or s.price_without_discounts <> 0)
-  --  AND sh.DTStart IS null
+  AND sh.DTStart IS null
   and anal.description in ('Клиника', 'Медикаменты', 'Аптека+Зоомагазин')
   and (pay.pers_of_serv_assign is not null or pay.pers_of_prescribed_med is not null or
        pay.pers_of_assign_pharmacy_prem_under_limit is not NULL);
