@@ -1,5 +1,5 @@
 CREATE TEMPORARY TABLE ttt_zpn_schedule (SELECT *
-                                         FROM zpn_schedule);
+                                         FROM analyticdb.zpn_schedule);
 CREATE INDEX ind_fio ON ttt_zpn_schedule (fio);
 CREATE INDEX ind_DTStart ON ttt_zpn_schedule (DTStart);
 CREATE INDEX ind_DTEnd ON ttt_zpn_schedule (DTEnd);
@@ -12,7 +12,7 @@ CREATE TEMPORARY TABLE ttt_zpn_payconditions (SELECT ppp.`role`,
                                                      ppp.pers_of_serv_used,
                                                      ppp.pers_of_used_med,
                                                      ppp.pers_of_used_pharmacy_prem_under_limit
-                                              FROM zpn_payconditions AS ppp
+                                              FROM analyticdb.zpn_payconditions AS ppp
                                               WHERE ppp.pers_of_serv_used is not null
                                                  or ppp.pers_of_used_med is not null
                                                  or ppp.pers_of_used_pharmacy_prem_under_limit is not null);
@@ -26,7 +26,7 @@ CREATE INDEX ind_pers_of_serv_used_ppp ON ttt_zpn_payconditions (pers_of_serv_us
 CREATE INDEX ind_pers_of_used_med_ppp ON ttt_zpn_payconditions (pers_of_used_med);
 CREATE INDEX ind_pers_of_used_pharmacy_prem_under_limit_ppp ON ttt_zpn_payconditions (pers_of_used_pharmacy_prem_under_limit);
 CREATE TEMPORARY TABLE ttt_zpn_levelsemployees (SELECT *
-                                                FROM zpn_levelsemployees);
+                                                FROM analyticdb.zpn_levelsemployees);
 CREATE INDEX ind_fio_ttt_zpn_levelsemployees ON ttt_zpn_levelsemployees (fio);
 CREATE INDEX ind_date_from_ttt_zpn_levelsemployees ON ttt_zpn_levelsemployees (date_from);
 CREATE INDEX ind_date_to_ttt_zpn_levelsemployees ON ttt_zpn_levelsemployees (date_to);
@@ -76,11 +76,11 @@ from analyticdb.et_sales AS s
 
          left join analyticdb.gs_clinics as cl on s.organization_key = cl.ref_key
 -- Тянем условия
-         left join analyticdb.ttt_zpn_payconditions as pay on pay.role = 'Самозванец' and
-                                                              s.period >= pay.date_from and s.period <= pay.date_to and
-                                                              pay.post = post.post and
-                                                              pay.level = post.level and
-                                                              cl.clinic = pay.clinic
+         left join ttt_zpn_payconditions as pay on pay.role = 'Самозванец' and
+                                                   s.period >= pay.date_from and s.period <= pay.date_to and
+                                                   pay.post = post.post and
+                                                   pay.level = post.level and
+                                                   cl.clinic = pay.clinic
 where s.period >= '2022-01-01 00:00'
   and (s.price <> 0
     or s.amount_of_costs <> 0
