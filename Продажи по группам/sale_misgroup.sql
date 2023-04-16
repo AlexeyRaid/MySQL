@@ -1,5 +1,6 @@
 select date(s.period)              as Date,
        s.organization_key          as Clinic,
+       n.ref_key                   as Nomenclature_Key,
        n.description               as Nomenclature,
        n.nomenclature_type         as Type,
        n.code                      as Code,
@@ -14,3 +15,5 @@ where (s.price <> 0
     or s.amount_of_costs <> 0
     or s.price_without_discounts <> 0)
   and a.description is null
+  and n.nomenclature_type = 'Товар'
+  and s.period >= '2022-01-01 00:00'
