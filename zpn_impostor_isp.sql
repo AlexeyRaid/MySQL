@@ -22,7 +22,7 @@ from analyticdb.et_sales as s
          LIMIT 1) = post.priority
 
          left join analyticdb.et_nomenclature as n on s.nomenclature_key = n.ref_key
-         left join analyticdb.analytic_salaries as anal on n.salary_analytics_key = anal.ref_key
+         left join analyticdb.et_salary_analytics as anal on n.salary_analytics_key = anal.ref_key
 
 where s.period >= '2023-02-01 00:00'
 
