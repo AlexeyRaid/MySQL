@@ -50,9 +50,9 @@ SELECT s.period,
        pay.role,
        pay.post,
        pay.level,
-       round(pay.pers_of_serv_used, 2)                      as ПерсНазнУсл,
-       round(pay.pers_of_used_med, 2)                       as ПерсНазнМед,
-       round(pay.pers_of_used_pharmacy_prem_under_limit, 2) as ПерсНазнАптекаДоЛимита
+       round(pay.pers_of_serv_used, 2)                      as ПерсИспУсл,
+       round(pay.pers_of_used_med, 2)                       as ПерсИспМед,
+       round(pay.pers_of_used_pharmacy_prem_under_limit, 2) as ПерсИспАптекаДоЛимита
 
 from analyticdb.et_sales AS s
          RIGHT JOIN analyticdb.gs_employee AS em ON em.ref_key = s.executor
