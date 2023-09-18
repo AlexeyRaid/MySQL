@@ -11,8 +11,7 @@ select pr.period as DTStart,
                   and pr.price_type_key = pr2.price_type_key
                 order by pr2.nomenclature_key, pr2.price_type_key, pr2.period
                 limit 1), date_add(now(), interval 1 day)
-           ) as DTEnd,
-    pr.price_type_key
+           ) as DTEnd
 
 from analyticdb.et_nomenclature_prices as pr
 
