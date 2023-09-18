@@ -38,4 +38,4 @@ and de.period >= pr.DTStart and de.period < pr.DTEnd
 and nom.unit_base_key = pr.unit_base_key
 
 
-where de.active = 1
+where de.active = 1 and de.period >= '2023-01-01 00:00'
