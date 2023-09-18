@@ -16,7 +16,8 @@ select de.recorder,
        de.cost / de.quantity / mea.coefficient as PurchaseBase, -- По коэфициенту высчитываем цену продажи Базовой единицы
        wh.type_price_key,
        pr.price as PriceBase,
-       pr.price*mea.coefficient as PriceSale
+       pr.price*mea.coefficient as PriceSale, -- цена продажи за ед в единицах ХраненияОстатков
+       pr.price*mea.coefficient*de.quantity as CostSale -- Сумма продажи в единицах ХраненияОстатков
 
 
 
