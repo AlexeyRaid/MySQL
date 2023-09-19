@@ -27,7 +27,7 @@ from analyticdb.et_decommissioned_consumables as de
          left join analyticdb.et_nomenclature as nom on de.consumable_key = nom.ref_key
 
 -- Тянем Коефициент с единиц измерения
-         left join analyticdb.et_measure as mea on de.consumable_key = mea.owner_key
+         left join analyticdb.et_measure as mea on de.consumable_key = mea.owner_key and nom.unit_rest_key_storage = mea.ref_key
 
 -- Подтягиваем ТипыЦен по складу продажи
          left join analyticdb.et_warehouses as wh on de.warehouse_key = wh.ref_key
@@ -39,4 +39,4 @@ and de.period >= pr.DTStart and de.period < pr.DTEnd
 and nom.unit_base_key = pr.unit_base_key
 
 
-where de.active = 1 and de.period >= '2023-01-01 00:00'
+where de.active = 1 and de.period >= '2023-01-01' and de.recorder_type <> 'StandardODATA.Document_Анализы'
