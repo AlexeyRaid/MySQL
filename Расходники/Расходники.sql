@@ -18,12 +18,12 @@ select de.recorder,
        wh.type_price_key,
 
 
-       pr.price                                 as PriceBase,
+       pr.price                                 as PriceBase,    -- цена продажи за ед в БазовойЕдинице
        pr.price * mea.coefficient               as PriceSale,    -- цена продажи за ед в единицах ХраненияОстатков
        pr.price * mea.coefficient * de.quantity as CostSale,     -- Сумма продажи в единицах ХраненияОстатков
 
-       s.price                                  as Serv_Price,
-       s.price_without_discounts                as Serv_PriseWoD
+       s.price                                  as Serv_Price, -- стоимость услуги со скидками
+       s.price_without_discounts                as Serv_PriseWoD  -- стоимость услуги по прайсу
 
 
 from analyticdb.et_decommissioned_consumables as de
@@ -48,4 +48,3 @@ from analyticdb.et_decommissioned_consumables as de
          left join analyticdb.et_sales as s on de.recorder = s.recorder and de.line_number = s.line_number
 
 where de.active = 1
-  and de.period >= '2023-01-01'
