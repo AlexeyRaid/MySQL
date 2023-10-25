@@ -35,10 +35,7 @@ select pay.date_from,
           ),
           pay.block_date) as date_end
 
+from analyticdb.gsf_pay_conditions as pay
 
-
-
-
-          from analyticdb.gsf_pay_conditions as pay
-
+-- Если блокдата имеет место быть - значит ставим ее в date_to. Если блокдаты нет - тогда ищем строку с такими же столбцами xxxxxxxx но хотя бы на один день больше, чем date_to, значит значение ev.date_from-1 и есть конечная дата для искомого столбца
 
