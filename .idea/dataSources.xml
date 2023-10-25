@@ -31,5 +31,12 @@
       <jdbc-url>jdbc:mariadb://46.101.131.55:9801/zoolux_vet</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
+    <data-source source="LOCAL" name="Finance" uuid="ba17796a-704d-40f5-96db-2b6f0e64f93f">
+      <driver-ref>postgresql</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql://ec2-16-171-139-78.eu-north-1.compute.amazonaws.com:5432/zoolux-admin</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
   </component>
 </project>
