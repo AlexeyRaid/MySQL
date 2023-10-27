@@ -48,10 +48,18 @@ gr.department,
                ), 2) * 3600 / 60 / 60
                                                                     as DlSmen
 
+
 from analyticdb.gs_schedule as gr
 
--- Корректировка!!
-
+-- Подтягиваем "корректированные смены"
+left join analyticdb.gs_correction as cor on
+                                            date(concat(DATE_FORMAT(gr.`year_month`, '%Y-%m-'), gr.day)) = cor.shift_date
+                                        and gr.clinic = cor.clinic
+                                        and gr.department = cor.department
+                                        and gr.post = cor.post
+                                        and gr.role = cor.role
+                                        and gr.shift = cor.shift
+                                        and gr.employee = cor.employee
 
 -- Тянем ФИО для дальнейших связей
          left join analyticdb.gsf_employee as emp on gr.employee = emp.fio_schedule
@@ -82,3 +90,19 @@ left join analyticdb.zpr_payconditions as pay on gr.clinic = pay.clinic
 
 
 where date(concat(DATE_FORMAT(gr.`year_month`, '%Y-%m-'), gr.day)) >= '2023-10-01' and gr.department = 'Фронт-Офис'
+
+-- Добавляем корректированные смены, ставя метку 1. Вьюшка старая, писанная мной давно.... но работает....
+# UNION
+# select cor.clinic,
+#        cor.department,
+#        cor.post,
+#        cor.role,
+#        cor.shift,
+#        cor.employee,
+#        cor.fio,
+#        cor.shift_date,
+#        cor.DTStart,
+#        cor.DTEnd,
+#        cor.DlSmen,
+#        '1'
+# from zpn_correction as cor
