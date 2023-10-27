@@ -28,8 +28,6 @@ timestampdiff(hour,
               )
              ) as DlSmen
 
-
-
 from analyticdb.gs_schedule as gr
 
 where date(concat(DATE_FORMAT(gr.`year_month`, '%Y-%m-'),gr.day)) >='2023-10-01' and gr.department = 'Фронт-Офис' or gr.department = 'Менеджер аптека' and gr.employee is not null
