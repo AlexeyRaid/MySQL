@@ -1,4 +1,4 @@
-select gr.employee, gr.day, gr.time_start, gr.time_end, gr.`year_month`,
+select gr.employee, gr.day, gr.time_start, gr.time_end, gr.`year_month`, gr.shift,
 
 -- Делаем дату смены. Берем дату начала месяца, убираем день и вставляем вместо него дату
 date(concat(DATE_FORMAT(gr.`year_month`, '%Y-%m-'),gr.day)) as DTSmen,
@@ -7,11 +7,12 @@ date(concat(DATE_FORMAT(gr.`year_month`, '%Y-%m-'),gr.day)) as DTSmen,
 concat(date(concat(DATE_FORMAT(gr.`year_month`, '%Y-%m-'),gr.day)), " ", gr.time_start) as DTStart,
 
 -- Создаем ДатуВремя конца смены
-if(gr.time_start<gr.time_end,
-    -- Если смена не припадает на смену дат - просто делаем то же самое
-    concat(date(concat(DATE_FORMAT(gr.`year_month`, '%Y-%m-'),gr.day)), " ", gr.time_end),
-    "11111")
-        as DTEnd
+if(gr.time_start < gr.time_end,
+           -- Если смена не припадает на смену дат - просто делаем то же самое
+   concat(date(concat(DATE_FORMAT(gr.`year_month`, '%Y-%m-'), gr.day)), " ", gr.time_end),
+           -- Если смена припадает на смену дат - добавляем сутки к дате начала смены
+   date_add(concat(date(concat(DATE_FORMAT(gr.`year_month`, '%Y-%m-'), gr.day)), " ", gr.time_end), interval 1 day)
+    )as DTEnd
 
 -- Считаем продолжительность смены.
 
