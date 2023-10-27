@@ -1,5 +1,4 @@
-select lev.id,
-       lev.date_from,
+select lev.date_from,
        lev.fio,
        lev.post,
        lev.level,
