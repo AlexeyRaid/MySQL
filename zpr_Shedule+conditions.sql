@@ -61,8 +61,7 @@ left join analyticdb.gs_correction as cor on
                                         and gr.role = cor.role
                                         and gr.shift = cor.shift
                                         and gr.employee = cor.employee
-                                        and cor.shift_date >= '2023-10-01'
-                                        and cor.department = 'Фронт-Офис'
+                                        and cor.shift_date >= '2023-10-01' and cor.department = 'Фронт-Офис'
 
 -- Тянем ФИО для дальнейших связей
          left join analyticdb.gsf_employee as emp on gr.employee = emp.fio_schedule
