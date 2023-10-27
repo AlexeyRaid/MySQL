@@ -76,10 +76,9 @@ left join analyticdb.gsf_employee as emp on gr.employee = emp.fio_schedule
 #
 -- Тянем уровень на дату
          left join analyticdb.zpr_level as lev on emp.fio = lev.fio
-    and gr.post = lev.post
-    and DATE_FORMAT(concat(date(concat(DATE_FORMAT(gr.`year_month`, '%Y-%m-'), gr.day)), " ", gr.time_start),
-                    '%Y-%m-%d %H:%i') >= lev.date_from and DATE_FORMAT(concat(
-                                                                               date(concat(DATE_FORMAT(gr.`year_month`, '%Y-%m-'), gr.day)), " ", gr.time_start), '%Y-%m-%d %H:%i') <= lev.date_to
+                                        and gr.post = lev.post
+                                        and DATE_FORMAT(concat(date(concat(DATE_FORMAT(gr.`year_month`, '%Y-%m-'), gr.day)), " ", gr.time_start), '%Y-%m-%d %H:%i') >= lev.date_from
+                                        and DATE_FORMAT(concat(date(concat(DATE_FORMAT(gr.`year_month`, '%Y-%m-'), gr.day)), " ", gr.time_start), '%Y-%m-%d %H:%i') <= lev.date_to
 
 -- Тянем условия оплаты смены по дата-клиника-смена-пост-департамент-уровень
 left join analyticdb.zpr_payconditions as pay on gr.clinic = pay.clinic
