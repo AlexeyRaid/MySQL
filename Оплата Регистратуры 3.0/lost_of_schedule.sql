@@ -1,6 +1,5 @@
 select
     gr.employee,
-    emp.fio,
 -- Делаем дату смены. Берем дату начала месяца, убираем день и вставляем вместо него дату
 date(concat(DATE_FORMAT(gr.`year_month`, '%Y-%m-'), gr.day)) as DTSmen
 
