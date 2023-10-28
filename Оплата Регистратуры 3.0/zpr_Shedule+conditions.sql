@@ -6,7 +6,7 @@ select
     gr.department,
     gr.post,
     lev.level as level,
-    pay.rate,
+    COALESCE(pay.rate, pay2.rate) as Rate,
 
 -- Делаем дату смены. Берем дату начала месяца, убираем день и вставляем вместо него дату
 date(concat(DATE_FORMAT(gr.`year_month`, '%Y-%m-'), gr.day)) as DTSmen,
@@ -113,42 +113,81 @@ left join analyticdb.gsf_employee as emp on gr.employee = emp.fio_schedule
                                         and DATE_FORMAT(concat(date(concat(DATE_FORMAT(gr.`year_month`, '%Y-%m-'), gr.day)), " ", gr.time_start), '%Y-%m-%d %H:%i') <= lev.date_to
 
 -- Тянем условия оплаты смены по дата-клиника-смена-пост-департамент-уровень
-left join analyticdb.zpr_payconditions as pay on gr.clinic = pay.clinic
-                                      and gr.post = pay.post
-                                      and gr.shift = pay.shift
-                                      and lev.level = pay.level
-                                      and
-                                            -- Создаем ДатуВремя начала смены
-                                                   -- Если есть эта запись в корректировке - ставим ее. Если нет - оставляем "родную"
-                                            if(cor.employee is null,
-                                                -- Родная запись
-                                               DATE_FORMAT(concat(date(concat(DATE_FORMAT(gr.`year_month`, '%Y-%m-'), gr.day)), " ", gr.time_start),'%Y-%m-%d %H:%i'),
-                                               -- Коректированная запись
-                                               DATE_FORMAT(concat(cor.shift_date, " ", cor.time_start), '%Y-%m-%d %H:%i')
-                                            )
-                                      >= pay.date_from
-                                      and
-                                            -- Создаем ДатуВремя конца смены
+    -- Полное совпадение
+    left join analyticdb.zpr_payconditions as pay on gr.clinic = pay.clinic
+                                          and gr.post = pay.post
+                                          and gr.shift = pay.shift
+                                          and lev.level = pay.level
+                                          and
+                                                -- Создаем ДатуВремя начала смены
                                                        -- Если есть эта запись в корректировке - ставим ее. Если нет - оставляем "родную"
-                                            if(cor.employee is null,
+                                                if(cor.employee is null,
                                                     -- Родная запись
-                                               if(gr.time_start < gr.time_end,
-                                                   -- Если смена не припадает на смену дат - просто делаем то же самое
-                                                  date_format(concat(date(concat(DATE_FORMAT(gr.`year_month`, '%Y-%m-'), gr.day)), " ", gr.time_end),
-                                                              '%Y-%m-%d %H:%i'),
-                                                   -- Если смена припадает на смену дат - добавляем сутки к дате начала смены
-                                                  date_format(date_add(concat(date(concat(DATE_FORMAT(gr.`year_month`, '%Y-%m-'), gr.day)), " ", gr.time_end),
-                                                                       interval 1 day), '%Y-%m-%d %H:%i')
-                                               ),
-                                                    -- Корректированная запись
-                                               if(gr.time_start < gr.time_end,
-                                                   -- Если смена не припадает на смену дат - просто делаем то же самое
-                                                  DATE_FORMAT(concat(cor.shift_date, " ", cor.time_end), '%Y-%m-%d %H:%i'),
-                                                   -- Если смена припадает на смену дат - добавляем сутки к дате начала смены
-                                                  date_add(DATE_FORMAT(concat(cor.shift_date, " ", cor.time_end), '%Y-%m-%d %H:%i'), interval 1 day)
+                                                   DATE_FORMAT(concat(date(concat(DATE_FORMAT(gr.`year_month`, '%Y-%m-'), gr.day)), " ", gr.time_start),'%Y-%m-%d %H:%i'),
+                                                   -- Коректированная запись
+                                                   DATE_FORMAT(concat(cor.shift_date, " ", cor.time_start), '%Y-%m-%d %H:%i')
+                                                )
+                                          >= pay.date_from
+                                          and
+                                                -- Создаем ДатуВремя конца смены
+                                                           -- Если есть эта запись в корректировке - ставим ее. Если нет - оставляем "родную"
+                                                if(cor.employee is null,
+                                                        -- Родная запись
+                                                   if(gr.time_start < gr.time_end,
+                                                       -- Если смена не припадает на смену дат - просто делаем то же самое
+                                                      date_format(concat(date(concat(DATE_FORMAT(gr.`year_month`, '%Y-%m-'), gr.day)), " ", gr.time_end),
+                                                                  '%Y-%m-%d %H:%i'),
+                                                       -- Если смена припадает на смену дат - добавляем сутки к дате начала смены
+                                                      date_format(date_add(concat(date(concat(DATE_FORMAT(gr.`year_month`, '%Y-%m-'), gr.day)), " ", gr.time_end),
+                                                                           interval 1 day), '%Y-%m-%d %H:%i')
+                                                   ),
+                                                        -- Корректированная запись
+                                                   if(gr.time_start < gr.time_end,
+                                                       -- Если смена не припадает на смену дат - просто делаем то же самое
+                                                      DATE_FORMAT(concat(cor.shift_date, " ", cor.time_end), '%Y-%m-%d %H:%i'),
+                                                       -- Если смена припадает на смену дат - добавляем сутки к дате начала смены
+                                                      date_add(DATE_FORMAT(concat(cor.shift_date, " ", cor.time_end), '%Y-%m-%d %H:%i'), interval 1 day)
+                                                      )
                                                   )
-                                              )
-                                      <= pay.date_end
+                                          <= pay.date_end
+    -- Совпадение по всему, кроме Клиники (clinic=ANY)
+    left join analyticdb.zpr_payconditions as pay2 on 'ANY' = pay2.clinic
+                                          and gr.post = pay2.post
+                                          and gr.shift = pay2.shift
+                                          and lev.level = pay2.level
+                                          and
+                                                -- Создаем ДатуВремя начала смены
+                                                       -- Если есть эта запись в корректировке - ставим ее. Если нет - оставляем "родную"
+                                                if(cor.employee is null,
+                                                    -- Родная запись
+                                                   DATE_FORMAT(concat(date(concat(DATE_FORMAT(gr.`year_month`, '%Y-%m-'), gr.day)), " ", gr.time_start),'%Y-%m-%d %H:%i'),
+                                                   -- Коректированная запись
+                                                   DATE_FORMAT(concat(cor.shift_date, " ", cor.time_start), '%Y-%m-%d %H:%i')
+                                                )
+                                          >= pay2.date_from
+                                          and
+                                                -- Создаем ДатуВремя конца смены
+                                                           -- Если есть эта запись в корректировке - ставим ее. Если нет - оставляем "родную"
+                                                if(cor.employee is null,
+                                                        -- Родная запись
+                                                   if(gr.time_start < gr.time_end,
+                                                       -- Если смена не припадает на смену дат - просто делаем то же самое
+                                                      date_format(concat(date(concat(DATE_FORMAT(gr.`year_month`, '%Y-%m-'), gr.day)), " ", gr.time_end),
+                                                                  '%Y-%m-%d %H:%i'),
+                                                       -- Если смена припадает на смену дат - добавляем сутки к дате начала смены
+                                                      date_format(date_add(concat(date(concat(DATE_FORMAT(gr.`year_month`, '%Y-%m-'), gr.day)), " ", gr.time_end),
+                                                                           interval 1 day), '%Y-%m-%d %H:%i')
+                                                   ),
+                                                        -- Корректированная запись
+                                                   if(gr.time_start < gr.time_end,
+                                                       -- Если смена не припадает на смену дат - просто делаем то же самое
+                                                      DATE_FORMAT(concat(cor.shift_date, " ", cor.time_end), '%Y-%m-%d %H:%i'),
+                                                       -- Если смена припадает на смену дат - добавляем сутки к дате начала смены
+                                                      date_add(DATE_FORMAT(concat(cor.shift_date, " ", cor.time_end), '%Y-%m-%d %H:%i'), interval 1 day)
+                                                      )
+                                                  )
+                                          <= pay2.date_end
+
 
 
 where date(concat(DATE_FORMAT(gr.`year_month`, '%Y-%m-'), gr.day)) >= '2023-10-01' and gr.department = 'Фронт-Офис'
