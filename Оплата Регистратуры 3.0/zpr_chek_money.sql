@@ -23,5 +23,4 @@ left join analyticdb.zpr_level as lev on ch.responsible_key = emp.ref_key
 where ch.date >= '2023-10-01' and ch.is_posted = 1
 
 
-  and emp.fio is not null
-group by(ch.ref_key)
+  and emp.fio is not null and ch.ref_key = '00040a0a-68da-11ee-638f-e607dc9b591c'
