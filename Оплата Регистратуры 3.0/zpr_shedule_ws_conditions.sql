@@ -1,6 +1,7 @@
 select
     gr.employee,
     emp.fio,
+    emp.ref_key,
     gr.clinic,
     gr.shift,
     gr.department,
