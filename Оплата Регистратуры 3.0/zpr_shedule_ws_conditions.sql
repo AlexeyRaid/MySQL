@@ -188,7 +188,5 @@ left join analyticdb.gsf_employee as emp on gr.employee = emp.fio_schedule
                                                   )
                                           <= pay2.date_end
 
-
-
-where date(concat(DATE_FORMAT(gr.`year_month`, '%Y-%m-'), gr.day)) >= '2023-10-01' and gr.department = 'Фронт-Офис'
+where date(concat(DATE_FORMAT(gr.`year_month`, '%Y-%m-'), gr.day)) >= '2023-10-01' and gr.department = 'Фронт-Офис' and gr.employee is not null
 
