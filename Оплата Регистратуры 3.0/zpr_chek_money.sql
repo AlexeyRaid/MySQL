@@ -1,8 +1,9 @@
-select  ch.ref_key, ch.date, ch.responsible_key, emp.fio, ch.amount+ch.amount_cashless as Suum,
+select  ch.ref_key, ch.date, ch.responsible_key,  ch.amount+ch.amount_cashless as Suum, emp.fio,
 
 -- Тянем с графика Post. Если подтянулся - значит был в графике. Если не подтянулся - значит Самозванец
 ifnull (gr.post, 0) as post,
-lev.level
+lev.level,
+gr.level
 
 
 from analyticdb.et_money_check as ch
@@ -16,11 +17,12 @@ left join analyticdb.zpr_shedule_ws_conditions as gr on ch.date >= gr.DTStart an
 
 -- Тянем уровень сотрудника на Дату
 left join analyticdb.zpr_level as lev on ch.responsible_key = emp.ref_key
-                                 and gr.post = lev.post
-                                 and ch.date >= lev.date_from and ch.date < lev.date_to
+                            and ch.date >= lev.date_from and ch.date < lev.date_to
+                            and gr.post = lev.post
 
 
 where ch.date >= '2023-10-01' and ch.is_posted = 1
 
 
-  and emp.fio is not null and ch.ref_key = '00040a0a-68da-11ee-638f-e607dc9b591c'
+  -- and emp.fio is not null
+  and ch.ref_key = '00040a0a-68da-11ee-638f-e607dc9b591c'
