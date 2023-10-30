@@ -19,6 +19,3 @@ left join analyticdb.zpr_shedule_ws_conditions as gr on ch.date >= gr.DTStart an
                                                 and  ch.responsible_key = gr.ref_key
 
 where ch.date >= '2023-10-01' and ch.is_posted = 1
-
-  -- and emp.fio is not null
-  and ch.ref_key = '00040a0a-68da-11ee-638f-e607dc9b591c'
