@@ -33,9 +33,13 @@ select pay.date_from,
                    order by pay3.clinic, pay3.shift, pay3.post, pay3.level
                    limit 1)
           ),
-          pay.block_date) as date_end
+          pay.block_date) as date_end,
+    cl.ref_key as clinic_ref
+
+
 
 from analyticdb.gsf_pay_conditions as pay
-
 -- Если блокдата имеет место быть - значит ставим ее в date_to. Если блокдаты нет - тогда ищем строку с такими же столбцами xxxxxxxx но хотя бы на один день больше, чем date_to, значит значение ev.date_from-1 и есть конечная дата для искомого столбца
 
+-- Подтягиваем реф клиник
+left join analyticdb.gs_clinics as cl on pay.clinic = cl.clinic
