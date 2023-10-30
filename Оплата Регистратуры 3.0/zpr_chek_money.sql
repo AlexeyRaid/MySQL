@@ -1,18 +1,8 @@
 select  ch.ref_key, ch.date, ch.responsible_key,  ch.amount+ch.amount_cashless as Suum, emp.fio, cl.clinic,
-
--- Тянем с графика Post. Если подтянулся - значит был в графике. Если не подтянулся - значит Самозванец
-
-ifnull (gr.post, 0) as post,
-
+ifnull (gr.post, 0) as post, -- Тянем с графика Post. Если подтянулся - значит был в графике. Если не подтянулся - значит Самозванец
 gr.level, -- Тут все должно работать, но нюанс - уровень тянется не с условий, а с графика. Но так как мы один хрен джойним график, грех не взять оттуда левел. Смысл в еще одном джойне?
-
 coalesce(pay.per_check, pay2.per_check) as Zp_Chek
 
-
-# pay.*,
-# gr.*,
-# cl.*,
-# emp.*
 from analyticdb.et_money_check as ch
 
 -- Тянем ФИО сотрудника
@@ -40,5 +30,3 @@ left join analyticdb.zpr_payconditions as pay2 on 'ANY' = pay2.clinic
                                         and ch.date >= pay2.date_from and ch.date <= pay2.date_end
 
 where ch.date >= '2023-10-01' and ch.is_posted = 1
-
--- and ch.ref_key = '002a74dc-6020-11ee-789f-e607dc9b591c'
