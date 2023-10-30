@@ -1,9 +1,18 @@
 select  ch.ref_key, ch.date, ch.responsible_key,  ch.amount+ch.amount_cashless as Suum, emp.fio, cl.clinic,
 
 -- Тянем с графика Post. Если подтянулся - значит был в графике. Если не подтянулся - значит Самозванец
+
 ifnull (gr.post, 0) as post,
+
 gr.level, -- Тут все должно работать, но нюанс - уровень тянется не с условий, а с графика. Но так как мы один хрен джойним график, грех не взять оттуда левел. Смысл в еще одном джойне?
+
 coalesce(pay.per_check, pay2.per_check) as Zp_Chek
+
+
+# pay.*,
+# gr.*,
+# cl.*,
+# emp.*
 from analyticdb.et_money_check as ch
 
 -- Тянем ФИО сотрудника
@@ -17,13 +26,19 @@ left join analyticdb.zpr_shedule_ws_conditions as gr on ch.date >= gr.DTStart an
                                                 and  ch.responsible_key = gr.ref_key
 
 -- Тянем условия оплаты за чек по полному совпадению
-left join analyticdb.zpr_payconditions as pay on cl.ref_key = ch.organization_key
+left join analyticdb.zpr_payconditions as pay on cl.ref_key = pay.clinic_ref
+                                        and gr.level = pay.level
                                         and gr.post = pay.post
-                                        and ch.date >= pay.date_from and ch.date <= pay.date_end
+                                        and gr.shift = pay.shift
+                                        and ch.date >= pay.date_from and ch.date < pay.date_end
 
 -- Тянем условия оплаты за чек по ANY pay.clinic
 left join analyticdb.zpr_payconditions as pay2 on 'ANY' = pay2.clinic
+                                        and gr.level = pay2.level
                                         and gr.post = pay2.post
-                                        and ch.date >= pay2.date_from and ch.date <= pay.date_end
+                                        and gr.shift = pay2.shift
+                                        and ch.date >= pay2.date_from and ch.date <= pay2.date_end
 
 where ch.date >= '2023-10-01' and ch.is_posted = 1
+
+-- and ch.ref_key = '002a74dc-6020-11ee-789f-e607dc9b591c'
