@@ -1,4 +1,4 @@
-select  ch.ref_key, ch.date, ch.responsible_key,  ch.amount+ch.amount_cashless as Suum, emp.fio, cl.clinic,
+select  ch.ref_key, ch.date, ch.responsible_key,  ch.amount+ch.amount_cashless as Suum, emp.fio, cl.clinic, ch.organization_key,
 ifnull (gr.post, 0) as post, -- Тянем с графика Post. Если подтянулся - значит был в графике. Если не подтянулся - значит Самозванец
 gr.level, -- Тут все должно работать, но нюанс - уровень тянется не с условий, а с графика. Но так как мы один хрен джойним график, грех не взять оттуда левел. Смысл в еще одном джойне?
 coalesce(pay.per_check, pay2.per_check) as Zp_Chek
