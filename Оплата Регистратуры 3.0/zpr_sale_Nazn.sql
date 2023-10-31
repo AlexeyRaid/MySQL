@@ -43,4 +43,4 @@ left join analyticdb.zpr_payconditions as pay2 on 'ANY' = pay2.clinic
 
 
 
-where s.period >= '2023-10-28' and n.salary_analytics_key = '4cf516b4-17bf-11e3-5888-08606e6953d2' and s.active = 1
+where s.period >= '2023-10-01' and n.salary_analytics_key = '4cf516b4-17bf-11e3-5888-08606e6953d2' and s.active = 1
