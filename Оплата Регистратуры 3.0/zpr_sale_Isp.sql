@@ -1,6 +1,7 @@
 select s.period,
        s.organization_key,
-       cl.clinic, s.executor,
+       cl.clinic,
+       s.executor,
        emp.fio,
        price-s.amount_of_costs as VP,
        gr.shift,

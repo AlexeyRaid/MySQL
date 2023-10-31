@@ -1,6 +1,7 @@
 select s.recorder,
        s.line_number,
-       s.period, s.organization_key,
+       s.period,
+       s.organization_key,
        cl.clinic,
        s.employee,
        emp.fio,
