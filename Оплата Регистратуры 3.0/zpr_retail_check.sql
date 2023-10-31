@@ -9,7 +9,7 @@ select ch.ref_key,
         gr.level, -- Тут все должно работать, но нюанс - уровень тянется не с условий, а с графика. Но так как мы один хрен джойним график, грех не взять оттуда левел. Смысл в еще одном джойне?
         coalesce(pay.per_check, pay2.per_check) as Zp_Chek
 
-from analyticdb.et_product_check as ch
+from analyticdb.et_retail_check as ch
 
 -- Тянем ФИО сотрудника
 left join analyticdb.gsf_employee as emp on ch.responsible_key = emp.ref_key
