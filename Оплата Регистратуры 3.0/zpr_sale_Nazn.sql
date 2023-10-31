@@ -1,6 +1,4 @@
-select s.recorder,
-       s.line_number,
-       s.period,
+select s.period,
        s.organization_key,
        cl.clinic,
        s.employee,
