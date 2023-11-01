@@ -1,4 +1,5 @@
 SELECT s.period,
+       date(s.period),
        s.organization_key,
        cl.clinic,
        s.executor,
@@ -16,4 +17,4 @@ LEFT JOIN analyticdb.gs_clinics as cl on s.organization_key = cl.ref_key
 LEFT JOIN analyticdb.zpr_shedule_ws_conditions as gr ON s.period >= gr.DTStart and s.period < gr.DTEnd and  s.executor= gr.ref_key
 LEFT JOIN analyticdb.zpr_payconditions as pay ON cl.ref_key = pay.clinic_ref AND gr.level = pay.level AND gr.post = pay.post AND gr.shift = pay.shift AND s.period >= pay.date_from and s.period < pay.date_end
 LEFT JOIN analyticdb.zpr_payconditions as pay2 ON 'ANY' = pay2.clinic AND gr.level = pay2.level AND gr.post = pay2.post AND gr.shift = pay2.shift AND s.period >= pay2.date_from and s.period <= pay2.date_end
-WHERE emp.fio IS NOT NULL
+
