@@ -10,8 +10,8 @@ price-s.amount_of_costs as VP,
         coalesce(pay.part_prod_assign, pay2.part_prod_assign) as Prem, -- Проверка на товары аптеки. Если нет в справочнике номенклатуры - тогда нулл)
         coalesce(pay.part_prod_assign, pay2.part_prod_assign)*(s.price-s.amount_of_costs) as ZP
 
-FROM (SELECT * FROM analyticdb.et_sales WHERE period >= '2023-10-01 0:00:00' AND active = 1 and recorder= 'ac7adf52-761d-11ee-f192-e607dc9b591c'
-                                        ) as s
+FROM (SELECT * FROM analyticdb.et_sales WHERE period >= '2023-10-01 00:00:00' AND active = 1 -- and recorder= 'ac7adf52-761d-11ee-f192-e607dc9b591c'
+    ) as s
 
 LEFT JOIN analyticdb.zpr_spr_nom as n ON s.nomenclature_key = n.ref_key
 
