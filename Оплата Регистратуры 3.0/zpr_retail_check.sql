@@ -1,5 +1,5 @@
 select ch.ref_key,
-        ch.date,
+        gr.DTSmen,
         ch.responsible_key,
         ch.amount_document as Suum,
         emp.fio, cl.clinic,

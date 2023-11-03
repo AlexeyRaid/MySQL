@@ -1,5 +1,5 @@
 SELECT s.period,
-       date(s.period) as DT,
+       gr.DTSmen,
        s.organization_key,
        cl.clinic,
        s.executor,
