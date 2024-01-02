@@ -9,6 +9,7 @@
   </component>
   <component name="VcsDirectoryMappings">
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
+    <mapping directory="$USER_HOME$/OneDrive" vcs="Git" />
     <mapping directory="$USER_HOME$/OneDrive/PowerBi/Rep" vcs="Git" />
   </component>
 </project>
